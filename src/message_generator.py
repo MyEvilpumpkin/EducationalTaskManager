@@ -1,5 +1,3 @@
-import re
-
 from transformers import pipeline
 
 generator = pipeline("conversational", model="tinkoff-ai/ruDialoGPT-medium")
@@ -20,8 +18,8 @@ def generate(text: str) -> str:
         repetition_penalty=1.2,
         length_penalty=1.0,
         eos_token_id=50257,
-        max_new_tokens=40
+        max_new_tokens=60
     )
     result = [generator.tokenizer.decode(sample_token_ids) for sample_token_ids in generated_token_ids][0]
-    parse_result = re.search(r"(?<=@@ВТОРОЙ@@)(?:(.+?)(?=@@ПЕРВЫЙ@@)|(.+))", result)[0]
-    return parse_result
+    last_second = result.split("@@ВТОРОЙ@@")[-1].split("@@ПЕРВЫЙ@@")[0]
+    return last_second
