@@ -9,5 +9,3 @@ Features:
     Motivational messages
 
 Helps students better organize their time, meet work deadlines, and improve academic performance.
-
-Written in Python using pyTelegramBotAPI and SQLite.
