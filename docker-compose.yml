@@ -1,0 +1,10 @@
+version: "3"
+services:
+  generator_test_app:
+    build: .
+    image: generator_test_app
+    container_name: generator_test_app
+    command: "generator_test_app.py"
+    ports:
+      - "8521:8501"
+    restart: on-failure
