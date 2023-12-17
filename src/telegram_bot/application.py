@@ -6,7 +6,8 @@ from src.libs.secrets_manager import get_secret
 from src.modules.motivation_generator import generate as generate_motivation
 from src.modules.tasks_handler import get_actual_tasks
 
-from .keyboards import keyboards, keyboard_options
+from .keyboard import keyboards, keyboard_options
+from .motivation import motivations
 
 
 def start() -> None:
@@ -46,15 +47,18 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await query.edit_message_text(text=f'Выбрано: {keyboard_options[query.data]}')
 
-    if query.data == 'motivation':
+    if query.data.startswith('keyboard_'):
+        await query.delete_message()
+        keyboards_option = query.data.split('_')[1]
+        if keyboards_option != 'hide':
+            await send_keyboard(query.message, keyboards_option)
+    elif query.data.startswith('motivation_'):
+        motivation_option = query.data.split('_')[1]
         await query.message.reply_text(
-            generate_motivation('У меня трудности с учебой, скажи, что-нибудь мотивирующее')
+            generate_motivation(motivations.get(motivation_option))
         )
-    elif query.data == 'motivation_phrase':
-        await query.message.reply_text(
-            generate_motivation('Скажи небольшую мотивационную фразу про учебу')
-        )
-    elif query.data == 'nearest_tasks':
+        await send_keyboard(query.message, 'motivation')
+    elif query.data == 'tasks_nearest':
         tasks = get_actual_tasks()
         tasks_info = ''
         n = 5
@@ -67,10 +71,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await query.message.reply_text(
             tasks_info
         )
-
-    if query.data == 'hide':
-        await query.delete_message()
-    else:
         await send_keyboard(query.message, 'main')
 
 
