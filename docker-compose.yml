@@ -2,7 +2,7 @@ version: "3"
 services:
   motivation_generator_app:
     build: .
-    image: motivation_generator_app
+    image: educational_task_manager
     container_name: motivation_generator_app
     command: "motivation_generator_app.py"
     ports:
@@ -10,7 +10,7 @@ services:
     restart: on-failure
   tasks_viewer_app:
     build: .
-    image: tasks_viewer_app
+    image: educational_task_manager
     container_name: tasks_viewer_app
     command: "tasks_viewer_app.py"
     ports:
@@ -18,7 +18,7 @@ services:
     restart: on-failure
   tg_bot:
     build: .
-    image: tg_bot
+    image: educational_task_manager
     container_name: tg_bot
     command: "tg_bot.py"
     restart: on-failure
