@@ -26,10 +26,10 @@ oauth_token = get_secret('GPT_OAUTH_TOKEN')
 api_key = get_secret('GPT_API_KEY')
 url = 'https://iam.api.cloud.yandex.net/iam/v1/tokens'
 
-bearer: Bearer | None = None
+bearer = None
 
 
-def get_auth_data():
+def get_auth_data() -> str:
     if auth_method == AuthMethod.BEARER:
         return get_bearer()
     if auth_method == AuthMethod.API_KEY:
@@ -59,5 +59,5 @@ def get_new_bearer() -> Bearer:
     return Bearer(iam_token)
 
 
-def get_api_key():
+def get_api_key() -> str:
     return f'Api-Key {api_key}'

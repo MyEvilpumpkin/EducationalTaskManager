@@ -7,7 +7,7 @@ from src.modules.motivation_generator import generate as generate_motivation
 from .keyboards import keyboards, keyboard_options
 
 
-def start():
+def start() -> None:
     token = get_secret('BOT_TOKEN')
     application = ApplicationBuilder().token(token).build()
 
@@ -19,12 +19,12 @@ def start():
     application.run_polling()
 
 
-async def send_keyboard(message: Message, keyboard_name: str):
+async def send_keyboard(message: Message, keyboard_name: str) -> None:
     keyboard = keyboards[keyboard_name]
     await message.reply_text('Пожалуйста, выберите:', reply_markup=InlineKeyboardMarkup(keyboard))
 
 
-async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await send_keyboard(update.message, 'main')
 
 
@@ -51,5 +51,5 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     await update.message.reply_text('Используйте /start для начала работы с ботом')
 
 
-async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(chat_id=update.effective_chat.id, text='Я не понимаю этой команды')
