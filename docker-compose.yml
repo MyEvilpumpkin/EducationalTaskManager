@@ -6,7 +6,7 @@ services:
     container_name: motivation_generator_app
     command: "motivation_generator_app.py"
     ports:
-      - "8521:8501"
+      - "8521:8601"
     restart: on-failure
   tasks_viewer_app:
     build: .
@@ -14,7 +14,7 @@ services:
     container_name: tasks_viewer_app
     command: "tasks_viewer_app.py"
     ports:
-      - "8521:8502"
+      - "8521:8602"
     restart: on-failure
   tg_bot:
     build: .
