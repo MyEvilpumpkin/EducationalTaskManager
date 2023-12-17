@@ -28,6 +28,7 @@ def get_tasks() -> set[Event]:
 
 def get_tasks_as_df() -> pd.DataFrame:
     df_data = {
+        'uid': [],
         'name': [],
         'begin': [],
         'end': [],
@@ -37,6 +38,7 @@ def get_tasks_as_df() -> pd.DataFrame:
 
     tasks = get_tasks()
     for task in tasks:
+        df_data['uid'].append(task.uid)
         df_data['name'].append(task.name)
         df_data['begin'].append(task.begin.datetime)
         df_data['end'].append(task.end.datetime)
