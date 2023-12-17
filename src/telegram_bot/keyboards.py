@@ -4,7 +4,8 @@ from telegram import InlineKeyboardButton
 keyboard_options = {
     'motivation': 'Получить мотивацию',
     'motivation_phrase': 'Получить мотивационную фразу',
-    'nearest_tasks': 'Посмотреть ближайшие задачи'
+    'nearest_tasks': 'Посмотреть ближайшие задачи',
+    'hide': 'Скрыть'
 }
 
 
@@ -22,6 +23,9 @@ keyboards = {
         ],
         [
             get_keyboard_button('nearest_tasks')
+        ],
+        [
+            get_keyboard_button('hide')
         ]
     ]
 }

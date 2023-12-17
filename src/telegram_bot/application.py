@@ -1,5 +1,6 @@
-from telegram import Update, InlineKeyboardMarkup, Message
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters, CallbackQueryHandler
+from telegram import Update, InlineKeyboardMarkup, Message, BotCommand
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters, \
+    CallbackQueryHandler, CallbackContext, Application
 
 from src.libs.secrets_manager import get_secret
 from src.modules.motivation_generator import generate as generate_motivation
@@ -10,14 +11,23 @@ from .keyboards import keyboards, keyboard_options
 
 def start() -> None:
     token = get_secret('BOT_TOKEN')
-    application = ApplicationBuilder().token(token).build()
+    application = ApplicationBuilder().token(token).post_init(post_init).build()
 
     application.add_handler(CommandHandler('start', start_command))
+    application.add_handler(CommandHandler('options', options_command))
     application.add_handler(CommandHandler('help', help_command))
     application.add_handler(CallbackQueryHandler(button))
     application.add_handler(MessageHandler(filters.COMMAND, unknown))
 
     application.run_polling()
+
+
+async def post_init(application: Application) -> None:
+    await application.bot.set_my_commands([
+        BotCommand('start', 'Начало работы'),
+        BotCommand('options', 'Опции'),
+        BotCommand('help', 'Помощь')
+    ])
 
 
 async def send_keyboard(message: Message, keyboard_name: str) -> None:
@@ -26,7 +36,7 @@ async def send_keyboard(message: Message, keyboard_name: str) -> None:
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await send_keyboard(update.message, 'main')
+    await update.message.reply_text('Используйте /options для просмотра доступных опций ')
 
 
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -58,7 +68,14 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             tasks_info
         )
 
-    await send_keyboard(query.message, 'main')
+    if query.data == 'hide':
+        await query.delete_message()
+    else:
+        await send_keyboard(query.message, 'main')
+
+
+async def options_command(update: Update, context: CallbackContext) -> None:
+    await send_keyboard(update.message, 'main')
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
