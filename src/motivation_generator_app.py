@@ -7,7 +7,7 @@ from modules.motivation_generator import generate
 
 
 def main():
-    st.title('Generator Test')
+    st.title('Motivation Generator')
     text = st.text_area(label='Запрос', placeholder='Введите запрос...')
     if text != '':
         st.write('Ответ')
