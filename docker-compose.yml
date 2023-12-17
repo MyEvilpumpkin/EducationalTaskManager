@@ -1,10 +1,24 @@
 version: "3"
 services:
-  generator_test_app:
+  motivation_generator_app:
     build: .
-    image: generator_test_app
-    container_name: generator_test_app
+    image: motivation_generator_app
+    container_name: motivation_generator_app
     command: "motivation_generator_app.py"
     ports:
       - "8521:8501"
+    restart: on-failure
+  tasks_viewer_app:
+    build: .
+    image: tasks_viewer_app
+    container_name: tasks_viewer_app
+    command: "tasks_viewer_app.py"
+    ports:
+      - "8521:8502"
+    restart: on-failure
+  tg_bot:
+    build: .
+    image: tg_bot
+    container_name: tg_bot
+    command: "tg_bot.py"
     restart: on-failure
