@@ -11,4 +11,4 @@ def get_all_tasks() -> pd.DataFrame:
 def get_actual_tasks() -> pd.DataFrame:
     tasks = get_all_tasks()
     actual_mark = tasks['end'].dt.date >= datetime.now().date()
-    return tasks[actual_mark]
+    return tasks[actual_mark].reset_index(drop=True)
