@@ -4,10 +4,11 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Messa
 
 from src.libs.secrets_manager import get_secret
 from src.modules.motivation_generator import generate as generate_motivation
-from src.modules.tasks_handler import get_actual_tasks
 
 from .keyboard import keyboards, keyboard_options
 from .motivation import motivations
+from .tasks import tasks
+from .pomodoro import pomodoro
 
 
 def start() -> None:
@@ -47,31 +48,25 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await query.edit_message_text(text=f'Выбрано: {keyboard_options[query.data]}')
 
-    if query.data.startswith('keyboard_'):
+    option, sub_option = get_option(query.data)
+
+    if option == 'keyboard':
         await query.delete_message()
-        keyboards_option = query.data.split('_')[1]
-        if keyboards_option != 'hide':
-            await send_keyboard(query.message, keyboards_option)
-    elif query.data.startswith('motivation_'):
-        motivation_option = query.data.split('_')[1]
-        await query.message.reply_text(
-            generate_motivation(motivations.get(motivation_option))
-        )
-        await send_keyboard(query.message, 'motivation')
-    elif query.data == 'tasks_nearest':
-        tasks = get_actual_tasks()
-        tasks_info = ''
-        n = 5
-        i = 0
-        for index, task in tasks.iterrows():
-            tasks_info += f'{i + 1}. {task["name"]} - {task["begin"].strftime("%d.%m.%Y %H:%M")}\n'
-            i += 1
-            if i >= n:
-                break
-        await query.message.reply_text(
-            tasks_info
-        )
-        await send_keyboard(query.message, 'main')
+        if sub_option != 'hide':
+            await send_keyboard(query.message, sub_option)
+    else:
+        if option == 'motivation':
+            await query.message.reply_text(
+                generate_motivation(motivations.get(sub_option))
+            )
+        elif option == 'tasks':
+            await query.message.reply_text(
+                tasks.get(sub_option)()
+            )
+        elif query.data.startswith('pomodoro'):
+            await pomodoro(query.message, context, sub_option)
+
+        await send_keyboard(query.message, option)
 
 
 async def options_command(update: Update, context: CallbackContext) -> None:
@@ -84,3 +79,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(chat_id=update.effective_chat.id, text='Я не понимаю этой команды')
+
+
+def get_option(command: str) -> tuple[str, str]:
+    return command.split('_')[0], command.split('_')[1]
