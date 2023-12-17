@@ -1,5 +1,5 @@
-from yandex_gpt.dto import Message
-from yandex_gpt.chat import send
+from src.yandex_gpt.dto import Message
+from src.yandex_gpt.chat import send
 
 start_message = Message.system_message('Ты - помощник студента, который должен поддерживать мотивацию.')
 

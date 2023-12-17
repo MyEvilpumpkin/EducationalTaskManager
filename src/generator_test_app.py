@@ -3,7 +3,7 @@ import sys
 import streamlit as st
 from streamlit.web import cli as stcli
 
-from motivation_generator import generate
+from modules.motivation_generator import generate
 
 
 def main():
