@@ -1,7 +1,9 @@
 version: "3"
 services:
-  motivation_generator_app:
+  educational_task_manager:
     build: .
+    image: educational_task_manager
+  streamlit_app:
     image: educational_task_manager
     container_name: streamlit_app
     command: "streamlit_app.py"
@@ -9,7 +11,6 @@ services:
       - "8521:8501"
     restart: on-failure
   tg_bot:
-    build: .
     image: educational_task_manager
     container_name: tg_bot
     command: "tg_bot.py"
