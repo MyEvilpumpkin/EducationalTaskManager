@@ -5,7 +5,7 @@ import requests
 
 from ics import Calendar, Event
 
-from src.libs.secrets_manager import get_secret
+from libs.secrets_manager import get_secret
 
 
 url = get_secret('ICAL_URL')

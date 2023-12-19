@@ -3,8 +3,8 @@ from enum import StrEnum
 from datetime import datetime
 
 from .dto import OAuthToken, IAMToken
-from src.libs.secrets_manager import get_secret
-from src.libs.settings_manager import get_setting
+from libs.secrets_manager import get_secret
+from libs.settings_manager import get_setting
 
 
 class AuthMethod(StrEnum):

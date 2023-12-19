@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import pandas as pd
 
-from src.ical_tasks.tasks import get_tasks_as_df
+from ical_tasks.tasks import get_tasks_as_df
 
 
 def get_all_tasks() -> pd.DataFrame:

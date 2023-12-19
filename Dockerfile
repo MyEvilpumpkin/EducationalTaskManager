@@ -4,8 +4,8 @@ COPY requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
 
-COPY src/ /app/src
+COPY src/ /app
 
-WORKDIR /app/src
+WORKDIR /app
 
 ENTRYPOINT ["python3"]

@@ -2,7 +2,7 @@ import pandas as pd
 from telegram import Message
 from telegram.ext import ContextTypes
 
-from src.modules.tasks_handler import get_actual_tasks
+from modules.tasks_handler import get_actual_tasks
 
 
 async def tasks(message: Message, context: ContextTypes.DEFAULT_TYPE, sub_option: str) -> None:
