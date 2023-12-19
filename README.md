@@ -1,11 +1,8 @@
 # EducationalTaskManager
 
-A telegram bot for optimizing students' educational process.
+A telegram bot which helps students better organize their time, meet work deadlines, and improve academic performance
 
 Features:
-
-    Deadline reminders
-    Task planning
-    Motivational messages
-
-Helps students better organize their time, meet work deadlines, and improve academic performance.
+ - Deadline reminders
+ - Motivational messages
+ - Pomodoro
