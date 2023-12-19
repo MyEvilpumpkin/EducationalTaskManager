@@ -1,18 +1,18 @@
-from datetime import timedelta
-
 import pandas as pd
+from telegram import Message
+from telegram.ext import ContextTypes
 
-from src.modules.tasks_handler import get_actual_tasks, get_upcoming_tasks
+from src.modules.tasks_handler import get_actual_tasks
+
+
+async def tasks(message: Message, context: ContextTypes.DEFAULT_TYPE, sub_option: str) -> None:
+    if sub_option == 'nearest':
+        await message.reply_text(nearest())
 
 
 def nearest(n: int = 5) -> str:
     actual_tasks = get_actual_tasks()
     return get_tasks_info(actual_tasks, n)
-
-
-tasks = {
-    'nearest': nearest
-}
 
 
 def get_tasks_info(tasks_: pd.DataFrame, n: int = 0) -> str:

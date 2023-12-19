@@ -1,4 +1,9 @@
-from telegram import InlineKeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+
+async def keyboard(message: Message, keyboard_name: str) -> None:
+    keyboard_ = keyboards[keyboard_name]
+    await message.reply_text('Пожалуйста, выберите:', reply_markup=InlineKeyboardMarkup(keyboard_))
 
 
 keyboard_options = {
@@ -29,10 +34,12 @@ keyboards = {
             get_keyboard_button('keyboard_motivation')
         ],
         [
-            get_keyboard_button('keyboard_tasks')
+            # get_keyboard_button('keyboard_tasks')
+            get_keyboard_button('tasks_nearest')
         ],
         [
-            get_keyboard_button('keyboard_tools')
+            # get_keyboard_button('keyboard_tools')
+            get_keyboard_button('keyboard_pomodoro')
         ],
         [
             get_keyboard_button('keyboard_hide')
@@ -79,7 +86,8 @@ keyboards = {
             get_keyboard_button('pomodoro_stop')
         ],
         [
-            get_keyboard_button('keyboard_tools'),
+            # get_keyboard_button('keyboard_tools'),
+            get_keyboard_button('keyboard_main'),
             get_keyboard_button('keyboard_hide')
         ]
     ]
