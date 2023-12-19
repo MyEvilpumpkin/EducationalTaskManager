@@ -2,7 +2,7 @@ import requests
 
 from .dto import *
 from .auth import get_auth_data
-from src.libs.secrets_manager import get_secret
+from libs.secrets_manager import get_secret
 
 
 default_completion_options = CompletionOptions(

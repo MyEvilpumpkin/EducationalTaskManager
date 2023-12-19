@@ -1,7 +1,7 @@
 from telegram import Message
 from telegram.ext import ContextTypes
 
-from src.modules.motivation_generator import generate as generate_motivation
+from modules.motivation_generator import generate as generate_motivation
 
 
 motivations = {

@@ -3,7 +3,7 @@ import sys
 import streamlit as st
 from streamlit.web import cli as stcli
 
-from src.modules.tasks_handler import get_actual_tasks
+from modules.tasks_handler import get_actual_tasks
 
 
 def main():

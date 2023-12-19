@@ -2,7 +2,7 @@ from telegram import Update, BotCommand
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters, \
     CallbackQueryHandler, CallbackContext, Application
 
-from src.libs.secrets_manager import get_secret
+from libs.secrets_manager import get_secret
 
 from .keyboard import keyboard, keyboard_options
 from .motivation import motivation
