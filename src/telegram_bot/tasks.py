@@ -1,11 +1,15 @@
 """
 Telegram bot tasks module
 """
-
-import pandas as pd           # Required for tasks representation
-from telegram import Message  # Required for message sending
+from datetime import timedelta         # Required for daily messages
+import pandas as pd                    # Required for tasks representation
+from telegram import Message           # Required for message sending
+from telegram.ext import ContextTypes  # Required for message sending
 
 from providers.tasks import get_relevant_tasks  # Required for tasks feature
+
+
+daily_subscribers = set()
 
 
 async def tasks(message: Message, sub_option: str) -> None:
@@ -14,10 +18,30 @@ async def tasks(message: Message, sub_option: str) -> None:
     """
 
     if sub_option == 'nearest':
-        await message.reply_text(nearest())
+        await message.reply_text(_nearest())
+    elif sub_option == 'daily-update':
+        await daily_update(message)
 
 
-def nearest(n: int = 5) -> str:
+async def daily(context: ContextTypes.DEFAULT_TYPE) -> None:
+    upcoming_tasks = get_relevant_tasks(relevance_delta=timedelta(days=2))
+
+    tasks_info = _get_tasks_info(upcoming_tasks) if not upcoming_tasks.empty else 'В ближайший день задач нет'
+    for daily_subscriber in daily_subscribers:
+        await context.bot.send_message(chat_id=daily_subscriber, text=tasks_info)
+
+
+async def daily_update(message: Message) -> None:
+    chat_id = message.chat_id
+    if chat_id not in daily_subscribers:
+        daily_subscribers.add(chat_id)
+        await message.reply_text('Вы подписались на ежедневные уведомления о задачах')
+    else:
+        daily_subscribers.remove(chat_id)
+        await message.reply_text('Вы отписались от ежедневных уведомлений о задачах')
+
+
+def _nearest(n: int = 5) -> str:
     """
     Get nearest tasks
     :param n: max number of tasks
