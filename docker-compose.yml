@@ -10,8 +10,8 @@ services:
     ports:
       - "8521:8501"
     restart: on-failure
-  tg_bot:
+  telegram_bot:
     image: educational_task_manager
-    container_name: tg_bot
-    command: "tg_bot.py"
+    container_name: telegram_bot
+    command: "telegram_bot.py"
     restart: on-failure

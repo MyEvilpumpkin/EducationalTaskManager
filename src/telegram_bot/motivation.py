@@ -1,7 +1,10 @@
-from telegram import Message
-from telegram.ext import ContextTypes
+"""
+Telegram bot motivation module
+"""
 
-from modules.motivation_generator import generate as generate_motivation
+from telegram import Message  # Required for message sending
+
+from providers.motivation import get_motivation  # Required for motivation feature
 
 
 motivations = {
@@ -12,7 +15,11 @@ motivations = {
 }
 
 
-async def motivation(message: Message, context: ContextTypes.DEFAULT_TYPE, sub_option: str) -> None:
+async def motivation(message: Message, sub_option: str) -> None:
+    """
+    Send motivation
+    """
+
     await message.reply_text(
-        generate_motivation(motivations.get(sub_option))
+        get_motivation(motivations.get(sub_option))
     )

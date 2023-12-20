@@ -1,7 +1,15 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message
+"""
+Telegram bot keyboards definition module
+"""
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message  # Required for keyboards management
 
 
 async def keyboard(message: Message, keyboard_name: str) -> None:
+    """
+    Send keyboard
+    """
+
     keyboard_ = keyboards[keyboard_name]
     await message.reply_text('Пожалуйста, выберите:', reply_markup=InlineKeyboardMarkup(keyboard_))
 
@@ -24,71 +32,75 @@ keyboard_options = {
 }
 
 
-def get_keyboard_button(option: str) -> InlineKeyboardButton:
+def _get_keyboard_button(option: str) -> InlineKeyboardButton:
+    """
+    Create keyboard button
+    """
+
     return InlineKeyboardButton(keyboard_options[option], callback_data=option)
 
 
 keyboards = {
     'main': [
         [
-            get_keyboard_button('keyboard_motivation')
+            _get_keyboard_button('keyboard_motivation')
         ],
         [
             # get_keyboard_button('keyboard_tasks')
-            get_keyboard_button('tasks_nearest')
+            _get_keyboard_button('tasks_nearest')  # Temp
         ],
         [
             # get_keyboard_button('keyboard_tools')
-            get_keyboard_button('keyboard_pomodoro')
+            _get_keyboard_button('keyboard_pomodoro')  # Temp
         ],
         [
-            get_keyboard_button('keyboard_hide')
+            _get_keyboard_button('keyboard_hide')
         ]
     ],
     'motivation': [
         [
-            get_keyboard_button('motivation_quote'),
-            get_keyboard_button('motivation_advice')
+            _get_keyboard_button('motivation_quote'),
+            _get_keyboard_button('motivation_advice')
         ],
         [
-            get_keyboard_button('motivation_exams'),
-            get_keyboard_button('motivation_time-management')
+            _get_keyboard_button('motivation_exams'),
+            _get_keyboard_button('motivation_time-management')
         ],
         [
-            get_keyboard_button('keyboard_main'),
-            get_keyboard_button('keyboard_hide')
+            _get_keyboard_button('keyboard_main'),
+            _get_keyboard_button('keyboard_hide')
         ]
     ],
     'tasks': [
         [
-            get_keyboard_button('tasks_nearest')
+            _get_keyboard_button('tasks_nearest')
         ],
         [
-            get_keyboard_button('keyboard_main'),
-            get_keyboard_button('keyboard_hide')
+            _get_keyboard_button('keyboard_main'),
+            _get_keyboard_button('keyboard_hide')
         ]
     ],
     'tools': [
         [
-            get_keyboard_button('keyboard_pomodoro')
+            _get_keyboard_button('keyboard_pomodoro')
         ],
         [
-            get_keyboard_button('keyboard_main'),
-            get_keyboard_button('keyboard_hide')
+            _get_keyboard_button('keyboard_main'),
+            _get_keyboard_button('keyboard_hide')
         ]
     ],
     'pomodoro': [
         [
-            get_keyboard_button('pomodoro_work'),
-            get_keyboard_button('pomodoro_rest')
+            _get_keyboard_button('pomodoro_work'),
+            _get_keyboard_button('pomodoro_rest')
         ],
         [
-            get_keyboard_button('pomodoro_stop')
+            _get_keyboard_button('pomodoro_stop')
         ],
         [
             # get_keyboard_button('keyboard_tools'),
-            get_keyboard_button('keyboard_main'),
-            get_keyboard_button('keyboard_hide')
+            _get_keyboard_button('keyboard_main'),  # Temp
+            _get_keyboard_button('keyboard_hide')
         ]
     ]
 }
