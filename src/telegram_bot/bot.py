@@ -7,7 +7,8 @@ from pytz import timezone   # Required for daily messages
 from telegram import *      # Required for telegram bot management
 from telegram.ext import *  # Required for telegram bot management
 
-from configuration.secrets import get_secret  # Required for obtaining bot token from secrets
+from configuration.secrets import get_secret    # Required to get secrets
+from configuration.settings import get_setting  # Required to get settings
 
 from .keyboard import keyboard, keyboard_options  # Required for keyboards feature
 from .motivation import motivation                # Required for motivation feature
@@ -23,11 +24,12 @@ def start() -> None:
 
     # Application creating
     token = get_secret('BOT_TOKEN')
+    tz = get_setting('CALENDAR_TZ')
     application = (
         ApplicationBuilder()
         .token(token)
         .post_init(_post_init)
-        .defaults(Defaults(tzinfo=timezone('Europe/Moscow')))
+        .defaults(Defaults(tzinfo=timezone(tz)))
         .build()
     )
 
