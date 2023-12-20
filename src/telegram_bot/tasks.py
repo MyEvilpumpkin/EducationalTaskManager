@@ -26,7 +26,8 @@ async def tasks(message: Message, sub_option: str) -> None:
 async def daily(context: ContextTypes.DEFAULT_TYPE) -> None:
     upcoming_tasks = get_relevant_tasks(relevance_delta=timedelta(days=2))
 
-    tasks_info = _get_tasks_info(upcoming_tasks) if not upcoming_tasks.empty else 'В ближайший день задач нет'
+    tasks_info = 'Задачи на ближайшее время:\n' + _get_tasks_info(upcoming_tasks) \
+        if not upcoming_tasks.empty else 'В ближайшее время задач нет'
     for daily_subscriber in daily_subscribers:
         await context.bot.send_message(chat_id=daily_subscriber, text=tasks_info)
 
