@@ -26,6 +26,7 @@ keyboard_options = {
     'motivation_exams': 'Перед экзаменом',
     'motivation_time-management': 'Тайм-менеджмент',
     'tasks_nearest': 'Посмотреть ближайшие задачи',
+    'tasks_daily-update': 'Ежедневные сообщения о задачах\n(подписаться/отписаться)',
     'pomodoro_work': 'Работа (25 мин.)',
     'pomodoro_rest': 'Отдых (5 мин.)',
     'pomodoro_stop': 'Остановка таймера',
@@ -74,6 +75,9 @@ keyboards = {
     'tasks': [
         [
             _get_keyboard_button('tasks_nearest')
+        ],
+        [
+            _get_keyboard_button('tasks_daily-update')
         ],
         [
             _get_keyboard_button('keyboard_main'),
