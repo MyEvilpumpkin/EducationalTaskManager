@@ -1,6 +1,7 @@
 """
 Telegram bot application module
 """
+
 from datetime import time   # Required for daily messages
 from pytz import timezone   # Required for daily messages
 from telegram import *      # Required for telegram bot management
