@@ -1,11 +1,17 @@
-from providers.motivation import get_motivation
+"""
+Motivation tests
+"""
+
+from providers.motivation import get_motivation  # Required for testing the motivation feature
 
 
 def test_get_motivation():
-    prompt_text = "Нужна мотивация для выполнения домашнего задания"
+    """
+    Base motivation test
+    """
 
-    # Вызываем функцию и проверяем результат
+    prompt_text = 'Нужна мотивация для выполнения домашнего задания'
+
     result = get_motivation(prompt_text)
 
-    # Предполагаем, что результат не пустой (вы можете настроить свои ожидания)
-    assert result.strip() != ""
+    assert result.strip() != ''
