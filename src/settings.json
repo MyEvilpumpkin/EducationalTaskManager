@@ -4,5 +4,6 @@
   "GPT_AUTH_URL": "https://iam.api.cloud.yandex.net/iam/v1/tokens",
   "GPT_AUTH_METHOD": "API_KEY",
   "GPT_MODEL_URL": "https://llm.api.cloud.yandex.net/foundationModels/v1/completion",
-  "GPT_MODEL_NAME": "yandexgpt-lite"
+  "GPT_MODEL_NAME": "yandexgpt-lite",
+  "CALENDAR_CACHE_RELOAD_DELTA_MINUTES": "5"
 }
