@@ -37,7 +37,7 @@ pip install -r requirements.txt
    - Telegram Bot:
    ```bash
    cd src
-   python tg_bot.py
+   python telegram_bot.py
    ```
    Then open your Telegram app and search for the bot using its username.
 
