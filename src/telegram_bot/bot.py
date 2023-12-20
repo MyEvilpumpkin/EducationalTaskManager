@@ -2,6 +2,7 @@
 Telegram bot application module
 """
 from datetime import time   # Required for daily messages
+from pytz import timezone   # Required for daily messages
 from telegram import *      # Required for telegram bot management
 from telegram.ext import *  # Required for telegram bot management
 
@@ -21,7 +22,13 @@ def start() -> None:
 
     # Application creating
     token = get_secret('BOT_TOKEN')
-    application = ApplicationBuilder().token(token).post_init(_post_init).build()
+    application = (
+        ApplicationBuilder()
+        .token(token)
+        .post_init(_post_init)
+        .defaults(Defaults(tzinfo=timezone('Europe/Moscow')))
+        .build()
+    )
 
     # Handlers adding
     application.add_handler(CommandHandler('start', _start_command_handler))
