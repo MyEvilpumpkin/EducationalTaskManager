@@ -7,13 +7,14 @@ import requests                           # Required for calendar downloading
 from ics import Calendar, Event           # Required for calendar data representation
 import pandas as pd                       # Required for another calendar data representation
 
-from configuration.secrets import get_secret  # Required to get the calendar url from secrets
+from configuration.secrets import get_secret    # Required to get the calendar url from secrets
+from configuration.settings import get_setting  # Required to get the calendar cache reload delta from settings
 
 
-calendar_url = get_secret('ICAL_URL')
+calendar_url = get_secret('CALENDAR_URL')
 calendar_cache = None
 calendar_cache_reload_at = datetime.now()
-calendar_cache_reload_delta = timedelta(hours=1)
+calendar_cache_reload_delta = timedelta(minutes=int(get_setting('CALENDAR_CACHE_RELOAD_DELTA_MINUTES')))
 
 
 def get_tasks_as_df() -> pd.DataFrame:
