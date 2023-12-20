@@ -1,4 +1,11 @@
-import pydantic
+"""
+Module that contains data transfer objects classes definitions
+
+All classes are required to work with the YandexGPT API
+Accordingly, see the documentation for these classes in the API documentation
+"""
+
+import pydantic  # Required to define classes
 
 
 class Message(pydantic.BaseModel):
@@ -27,15 +34,23 @@ class Message(pydantic.BaseModel):
         )
 
 
-class CompletionOptions(pydantic.BaseModel):
+class Options(pydantic.BaseModel):
     stream: bool
     temperature: float
     maxTokens: int
 
+    @staticmethod
+    def default():
+        return Options(
+            stream=False,
+            temperature=1,
+            maxTokens=1000
+        )
+
 
 class Request(pydantic.BaseModel):
     modelUri: str
-    completionOptions: CompletionOptions
+    completionOptions: Options
     messages: list[Message]
 
 
@@ -62,6 +77,12 @@ class Response(pydantic.BaseModel):
 
 class OAuthToken(pydantic.BaseModel):
     yandexPassportOauthToken: str
+
+    @staticmethod
+    def token(oauth_token: str):
+        return OAuthToken(
+            yandexPassportOauthToken=oauth_token
+        )
 
 
 class IAMToken(pydantic.BaseModel):

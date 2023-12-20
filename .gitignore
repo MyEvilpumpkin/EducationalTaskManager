@@ -1,11 +1,10 @@
 **/.DS_Store
 
 **/.idea
+**/.vscode
 
 **/venv
-
 **/__pycache__
-
 **/.pytest_cache
 
 *secrets.json

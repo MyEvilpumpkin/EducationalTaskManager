@@ -1,47 +1,80 @@
-from datetime import timedelta
+"""
+Telegram bot pomodoro tool module
+"""
 
-from telegram import Message
-from telegram.ext import ContextTypes
+from datetime import timedelta         # Required for pomodoro timers
+
+from telegram import Message           # Required for message sending
+from telegram.ext import ContextTypes  # Required for message sending
 
 
 async def pomodoro(message: Message, context: ContextTypes.DEFAULT_TYPE, sub_option: str) -> None:
+    """
+    Set or unset pomodoro timer
+    """
+
     if sub_option == 'work':
-        await set_work_timer(message, context)
+        await _set_work_timer(message, context)
     elif sub_option == 'rest':
-        await set_rest_timer(message, context)
+        await _set_rest_timer(message, context)
     elif sub_option == 'stop':
-        await unset(message, context)
+        await _unset_timer(message, context)
 
 
-async def set_work_timer(message: Message, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_timer(message, context, timedelta(minutes=25), 'Работа (25 мин.)')
+async def _set_work_timer(message: Message, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """
+    Set work pomodoro timer
+    """
+
+    await _set_timer(message, context, timedelta(minutes=25), 'Работа (25 мин.)')
 
 
-async def set_rest_timer(message: Message, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_timer(message, context, timedelta(minutes=5), 'Отдых (5 мин.)')
+async def _set_rest_timer(message: Message, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """
+    Set rest pomodoro timer
+    """
+
+    await _set_timer(message, context, timedelta(minutes=5), 'Отдых (5 мин.)')
 
 
-async def set_timer(message: Message, context: ContextTypes.DEFAULT_TYPE, delta: timedelta, timer_name: str) -> None:
+async def _set_timer(message: Message, context: ContextTypes.DEFAULT_TYPE, delta: timedelta, timer_name: str) -> None:
+    """
+    Set pomodoro timer
+    """
+
     chat_id = message.chat_id
-    await remove_timer_if_exists(str(chat_id), context)
-    context.job_queue.run_once(alarm, delta, chat_id=chat_id, name=str(chat_id), data=timer_name)
+    await _remove_timer_if_exists(str(chat_id), context)
+    context.job_queue.run_once(_alarm, delta, chat_id=chat_id, name=str(chat_id), data=timer_name)
 
     await message.reply_text(f'Таймер {timer_name} установлен')
 
 
-async def unset(message: Message, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _unset_timer(message: Message, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """
+    Unset pomodoro timer
+    """
+
     chat_id = message.chat_id
-    job_removed = await remove_timer_if_exists(str(chat_id), context)
+    job_removed = await _remove_timer_if_exists(str(chat_id), context)
     if not job_removed:
         await message.reply_text('Нет активного таймера')
 
 
-async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """
+    Notify user about timer
+    """
+
     job = context.job
     await context.bot.send_message(job.chat_id, text=f'Таймер {job.data} завершен')
 
 
-async def remove_timer_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
+async def _remove_timer_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
+    """
+    Remove timer if timer exists
+    :return: True if timer exists, False otherwise
+    """
+
     current_jobs = context.job_queue.get_jobs_by_name(name)
     if not current_jobs:
         return False
@@ -51,6 +84,11 @@ async def remove_timer_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) 
     return True
 
 
-def is_timer_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
+def _is_timer_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
+    """
+    Check timer exists
+    :return: True if timer exists, False otherwise
+    """
+
     current_jobs = context.job_queue.get_jobs_by_name(name)
     return False if not current_jobs else True
